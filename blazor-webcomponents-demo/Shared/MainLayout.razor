@@ -1,0 +1,62 @@
+﻿@inherits LayoutComponentBase
+
+@inject NavigationManager navigationManager
+
+<MatAppBar Style="z-index: 100;" Class="mat">
+    <MatAppBarRow>
+        <MatAppBarSection>
+            <MatIconButton Icon="menu" OnClick="@((e) => MenuButtonClicked())"></MatIconButton>
+            <MatAppBarTitle>Bleb Components</MatAppBarTitle>
+        </MatAppBarSection>
+        <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+            <MatIconButton Icon="favorite" Link="https://www.thinktecture.com"></MatIconButton>
+        </MatAppBarSection>
+    </MatAppBarRow>
+</MatAppBar>
+
+<MatDrawerContainer Style="width: 100vw; height: 100vh;" Class="mat">
+    <MatHidden Breakpoint="@MatBreakpoint.SM" Direction="@MatHiddenDirection.Up" HiddenChanged="@ModelDrawerHiddenChanged">
+        <ChildContent>
+            <MatDrawer @bind-Opened="@_navMenuOpened" Mode="@MatDrawerMode.Modal">
+                <MatAppBarAdjust></MatAppBarAdjust>
+                <MatNavMenu Multi="true">
+                    <MatNavItem Href="@navigationManager.ToAbsoluteUri("").AbsoluteUri"><MatIcon Icon="map"></MatIcon>Maps</MatNavItem>
+                    <MatNavItem Href="/charts"><MatIcon Icon="map"></MatIcon>Charts</MatNavItem>
+                </MatNavMenu>
+            </MatDrawer>
+        </ChildContent>
+        <ElseContent>
+            <MatDrawer @bind-Opened="@_navMenuOpened" Mode="@MatDrawerMode.Dismissible">
+                <MatAppBarAdjust></MatAppBarAdjust>
+                <MatNavMenu Multi="true">
+                    <MatNavItem Href="@navigationManager.ToAbsoluteUri("").AbsoluteUri"><MatIcon Icon="map"></MatIcon>Maps</MatNavItem>
+                    <MatNavItem Href="/charts"><MatIcon Icon="map"></MatIcon>Charts</MatNavItem>
+                </MatNavMenu>
+            </MatDrawer>
+        </ElseContent>
+    </MatHidden>
+
+    <MatDrawerContent Style="padding-left: 25px; padding-right: 25px; padding-top: 20px">
+        <MatAppBarAdjust></MatAppBarAdjust>
+        @Body
+    </MatDrawerContent>
+</MatDrawerContainer>
+
+
+@code {
+    private bool _navMenuOpened = false;
+
+    protected void ModelDrawerHiddenChanged(bool hidden)
+    {
+        if (!hidden)
+        {
+            _navMenuOpened = false;
+        }
+    }
+
+    protected void MenuButtonClicked()
+    {
+        _navMenuOpened = !_navMenuOpened;
+        this.StateHasChanged();
+    }
+}

@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Blazor & Web Components</title>
+    <base href="/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+</head>
+
+<body>
+    <app>Loading...</app>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script>
+        onBlazorReady = function () {
+            console.log("### Blazor up asnd running!");
+        };
+    </script>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_content/MatBlazor/dist/matBlazor.js"></script>
+
+    <script src="libs/good-map.js"></script>
+    <script src="jsinterop/goodmap.js"></script>
+
+    <script src="libs/wc-piechart/polyfills.js" type="module"></script>
+    <script src="libs/wc-piechart/angular-scripts.js" defer></script>
+    <script src="libs/wc-piechart/wc-piechart.js" type="module"></script>
+    <script src="jsinterop/wcpiechart.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+﻿@page "/"
+
+@inject IJSRuntime JS
+
+<h3>Maps</h3>
+
+<style>
+    good-map {
+        display: block;
+        height: 500px;
+        width: 100%
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <label>Latitude: </label>
+        </div>
+        <div class="col-10">
+            <input type="text" id="latitude" @bind-value="@_latitude" @bind-value:event="oninput" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <label>Longitude: </label>
+        </div>
+        <div class="col-10">
+            <input type="text" id="longitude" @bind-value="_longitude" @bind-value:event="oninput" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <good-map api-key="AIzaSyBWUX47ec8iBMgjXZ8VR0ibE5boAqZWq2A"
+                      latitude="@_latitude"
+                      longitude="@_longitude"
+                      zoom="15"
+                      map-options='{"mapTypeId":"satellite"}'>
+            </good-map>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+</div>
+
+@code {
+    private float _longitude = 9.572170f;
+    private float _latitude = 49.937790f;
+
+    protected async override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("interop.maps.init");
+        }
+    }
+}

@@ -1,2 +1,2 @@
-# blazor-integrations-angular-elements-web-components
-Small sample application integrating an Angular app as an Angular Elements custom element into a Blazor WebAssembly application.
+# Blazor Integrations:
+## Using an Angular Elements Web Components Custom Element in a Blazor Application

@@ -1,0 +1,63 @@
+﻿@page "/charts"
+
+@using System.Text.Json
+
+@implements IDisposable
+
+@inject IJSRuntime JS
+
+<h3>Charts</h3>
+
+<style>
+    wc-pie-chart {
+        font-family: Lato;
+        color: #212121;
+        background-color: #f5f5f5;
+        margin: 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <wc-pie-chart data-values='@_data'>
+        </wc-pie-chart>
+    </div>
+    <div class="row">
+        <label>Current country (from .NET):&nbsp;</label>
+        <label><b>@_selectedCountry</b></label>
+    </div>
+</div>
+
+@code {
+    private string _data = @"[{""name"": ""Germany"",""value"": 8940000},{""name"": ""USA"",""value"": 5000000},{""name"": ""France"",""value"": 7200000},{""name"": ""UK"",""value"": 6200000}]";
+    private string _selectedCountry;
+
+    private DotNetObjectReference<Charts> _objectReference;
+
+    protected async override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("interop.charts.init");
+            _objectReference = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("interop.charts.register", _objectReference);
+        }
+    }
+
+    [JSInvokable]
+    public void SetSelectedCountry(JsonElement selectedData)
+    {
+        _selectedCountry = selectedData.GetProperty("name").ToString();
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+
+        if (_objectReference != null)
+        {
+            _objectReference.Dispose();
+        }
+    }
+}
