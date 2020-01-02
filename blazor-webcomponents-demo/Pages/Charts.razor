@@ -38,9 +38,9 @@
     {
         if (firstRender)
         {
-            await JS.InvokeVoidAsync("interop.charts.init");
             _objectReference = DotNetObjectReference.Create(this);
             await JS.InvokeVoidAsync("interop.charts.register", _objectReference);
+            await JS.InvokeVoidAsync("interop.charts.init");
         }
     }
 
